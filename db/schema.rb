@@ -14,9 +14,10 @@
 ActiveRecord::Schema.define(version: 20150525052355) do
 
   create_table "locations", force: :cascade do |t|
-    t.string "name"
-    t.float  "latitude"
-    t.float  "longitude"
+    t.string  "name"
+    t.float   "latitude"
+    t.float   "longitude"
+    t.integer "postcode"
   end
 
   create_table "measurements", force: :cascade do |t|
@@ -27,21 +28,13 @@ ActiveRecord::Schema.define(version: 20150525052355) do
   end
 
   create_table "observations", force: :cascade do |t|
-    t.float   "temperature"
-    t.float   "dew_point"
-    t.float   "rainfall"
-    t.string  "wind_direction"
-    t.float   "wind_speed"
-    t.integer "source_id"
+    t.integer "observed_at"
     t.integer "location_id"
-    t.integer "time_stamp_id"
     t.integer "measurement_id"
   end
 
   add_index "observations", ["location_id"], name: "index_observations_on_location_id"
   add_index "observations", ["measurement_id"], name: "index_observations_on_measurement_id"
-  add_index "observations", ["source_id"], name: "index_observations_on_source_id"
-  add_index "observations", ["time_stamp_id"], name: "index_observations_on_time_stamp_id"
 
   create_table "predictions", force: :cascade do |t|
     t.integer "predicted_at"
@@ -50,15 +43,6 @@ ActiveRecord::Schema.define(version: 20150525052355) do
     t.float   "temp_prob"
     t.float   "wind_dir_prob"
     t.float   "wind_speed_prob"
-  end
-
-  create_table "sources", force: :cascade do |t|
-    t.string "name"
-    t.string "format"
-  end
-
-  create_table "time_stamps", force: :cascade do |t|
-    t.integer "timestamp"
   end
 
 end
