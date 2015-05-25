@@ -2,42 +2,21 @@
 require 'scraper'
 
 class Fetcher
-  def fetch source_name
-    time = TimeStamp.create(timestamp: Time.now.to_i)
+  def fetch
     scraper = Scraper.new
-    source = Source.find_by(name: source_name)
-
-    if source.format == 'html'
-      location = Location.all
-      location.each do |l|
-        data = scraper.get_bom(l.name)
-        obs = Observation.new
-        obs.temperature = data[:temperature]
-        obs.dew_point = data[:dew_point]
-        obs.rainfall = data[:rainfall]
-        obs.wind_direction = data[:wind_dir]
-        obs.wind_speed = data[:wind_speed]
-        obs.source_id = source.id
-        obs.location_id = l.id
-        obs.time_stamp_id = time.id
-        obs.save
-      end
-    elsif source.format == 'json'
-      location = Location.all
-      location.each do |l|
-        data = scraper.get_forecastio(time.timestamp, l.latitude, l.longitude)
-        obs = Observation.new
-        obs.temperature = data[:temperature]
-        obs.dew_point = data[:dew_point]
-        obs.rainfall = data[:rainfall]
-        obs.wind_direction = data[:wind_dir]
-        obs.wind_speed = data[:wind_speed]
-        obs.source_id = source.id
-        obs.location_id = l.id
-        obs.time_stamp_id = time.id
-        obs.save
-      end
-
+    location = Location.all
+    location.each do |l|
+      data = scraper.get_bom(l.name)
+      observation = Observation.new
+      measurement = Measurement.new
+      measurement.temperature = data[:temperature]
+      measurement.rainfall = data[:rainfall]
+      measurement.wind_direction = data[:wind_dir]
+      measurement.wind_speed = data[:wind_speed]
+      measurement.save
+      observation.location_id = l.id
+      observation.measurement_id = measurement.id
+      observation.observed_at = Time.now.to_i
     end
   end
 end
