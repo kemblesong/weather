@@ -17,6 +17,7 @@ class Fetcher
       observation.location_id = l.id
       observation.measurement_id = measurement.id
       observation.observed_at = Time.now.to_i
+      observation.save
     end
   end
 end
