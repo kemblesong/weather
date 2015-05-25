@@ -11,12 +11,19 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150423115549) do
+ActiveRecord::Schema.define(version: 20150525052355) do
 
   create_table "locations", force: :cascade do |t|
     t.string "name"
     t.float  "latitude"
     t.float  "longitude"
+  end
+
+  create_table "measurements", force: :cascade do |t|
+    t.float "temperature"
+    t.float "rainfall"
+    t.float "wind_direction"
+    t.float "wind_speed"
   end
 
   create_table "observations", force: :cascade do |t|
@@ -28,11 +35,22 @@ ActiveRecord::Schema.define(version: 20150423115549) do
     t.integer "source_id"
     t.integer "location_id"
     t.integer "time_stamp_id"
+    t.integer "measurement_id"
   end
 
   add_index "observations", ["location_id"], name: "index_observations_on_location_id"
+  add_index "observations", ["measurement_id"], name: "index_observations_on_measurement_id"
   add_index "observations", ["source_id"], name: "index_observations_on_source_id"
   add_index "observations", ["time_stamp_id"], name: "index_observations_on_time_stamp_id"
+
+  create_table "predictions", force: :cascade do |t|
+    t.integer "predicted_at"
+    t.integer "time_since_query"
+    t.float   "rainfall_prob"
+    t.float   "temp_prob"
+    t.float   "wind_dir_prob"
+    t.float   "wind_speed_prob"
+  end
 
   create_table "sources", force: :cascade do |t|
     t.string "name"
