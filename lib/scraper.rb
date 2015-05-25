@@ -22,7 +22,7 @@ class Scraper
   end
 
   def get_bom location
-    url = 'http://www.bom.gov.au/vic/observations/melbourne.shtml'
+    url = 'http://www.bom.gov.au/vic/observations/vicall.shtml'
     doc = Nokogiri::HTML(open(url))
     data = doc.xpath('//td[contains(@headers, \''+location+'\')]').map{|x| x.text}
     forecast = { temperature: data[1],
