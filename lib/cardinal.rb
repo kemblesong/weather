@@ -1,20 +1,10 @@
 # Converts bearings into cardinal directions.
 
 class Cardinal
-  def convert bearing
-   if bearing < 0 && bearing > -180
-     # Normalize to [0,360]
-     bearing = 360.0 + bearing;
-   end
-   if bearing > 360 || bearing < -180
-     return "Unknown"
-   end
-
-   directions = [
-     "N", "NNE", "NE", "ENE", "E", "ESE", "SE", "SSE",
-     "S", "SSW", "SW", "WSW", "W", "WNW", "NW", "NNW",
-     "N"]
-   cardinal = directions[(((bearing + 11.25) % 360) / 22.5).floor];
-   return cardinal
- end
+  
+  # http://stackoverflow.com/questions/29812871/convert-orientation-n-s-se-sse-etc-to-bearing-angle
+  def self.cardinal_direction_to_degrees(s)
+    h = {n: 0, ne: 45, e: 90, se: 135, s: 180, sw: 225, w: 270, nw: 315}
+    return h[s.to_s.downcase.to_sym]
+  end
 end

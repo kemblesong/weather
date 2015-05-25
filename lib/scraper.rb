@@ -15,7 +15,7 @@ class Scraper
     data = doc.xpath('//td[contains(@headers, \''+location+'\')]').map{|x| x.text}
     forecast = { temperature: data[1],
                  rainfall: data[12],
-                 wind_dir: data[6],
+                 wind_dir: Cardinal.cardinal_direction_to_degrees(data[6]),
                  wind_speed: data[7] }
     return forecast
   end
