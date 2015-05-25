@@ -51,7 +51,8 @@ class Predict
     ATTRIBUTES.each do |a|
       (0..n).step(10) do |t|
         predictions[t] ||= Hash.new
-        if !past_data[a].nil?
+        if !past_data[a].nil? && past_data[a].size > 1
+          # has at least 2 past measurements
           regression = Regression.new(t_hash[a], past_data[a])
           curr_eq = regression.get_equation_with_least_mse
           # TODO
@@ -60,8 +61,11 @@ class Predict
           p curr_eq
           p ""
           predictions[t][a] = curr_eq.calculate relative_time_now + n
+        elsif past_data[a].size == 1
+          # only has 1 past measurement, use that 1 measurement
+          predictions[t][a] = past_data[a][0]
         else
-          # no recent readings
+          # no past measurement
           predictions[t][a] = nil
         end
       end
