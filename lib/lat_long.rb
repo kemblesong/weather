@@ -26,8 +26,6 @@ class LatLong
       l_position = Hash.new
       l_position['latitude'] = loc.latitude
       l_position['longitude'] = loc.longitude
-      puts position.inspect
-      puts l_position.inspect
       dist = eval_distance(position, l_position)
 
       # If the distance is larger than 15km, do not use it.
