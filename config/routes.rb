@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
-  
-  get '/weather/prediction/:postcode/:period' => 'weather_prediction#postcode'
-  
+
+
+
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
@@ -57,5 +57,8 @@ Rails.application.routes.draw do
   #     resources :products
   #   end
 
-  get 'weather/data' => 'weather#show'
+  get '/weather/locations' => 'locations#show'
+  get '/weather/data/:postcode/:date', to: 'weather_data#show_by_postcode',constraints: { postcode: /\d.+/ }
+  get '/weather/data/:location_id/:date' => 'weather_data#show_by_name'
+  get '/weather/prediction/:postcode/:period' => 'weather_prediction#postcode'
 end
