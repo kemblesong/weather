@@ -1,0 +1,32 @@
+<h1>Latitude: <%= @result['latitude']%> Longitude: <%= @result['longitude']%></h1>
+
+</br></br>
+<table class="table">
+  <thead>
+  <tr>
+    <th rowspan="2">Time</th>
+    <th colspan="2">Temperature</th>
+    <th colspan="2">Rainfall</th>
+    <th colspan="2">Wind Speed</th>
+    <th colspan="2">Wind Direction</th>
+  </tr>
+  <tr>
+    <% 4.times do |n|%>
+        <th>Value</th>
+        <th>Probability</th>
+    <% end %>
+  </tr>
+  </thead>
+
+  <tbody>
+  <% @result['predictions'].each do |t, r|%>
+      <tr>
+        <td><%= r['time']%></td>
+        <% %w(temperature rainfall wind_speed wind_direction).each do |a|%>
+            <td><%= r[a]['value']%></td>
+            <td><%= r[a]['probability']%></td>
+        <% end %>
+      </tr>
+  <% end %>
+  </tbody>
+</table>
