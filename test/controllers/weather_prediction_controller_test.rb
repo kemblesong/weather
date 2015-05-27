@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class WeatherControllerTest < ActionController::TestCase
+class WeatherPredictionControllerTest < ActionController::TestCase
   # test "the truth" do
   #   assert true
   # end
