@@ -55,7 +55,7 @@ Rails.application.routes.draw do
   #   end
 
   get '/weather/locations' => 'locations#show'
-  get '/weather/data/:postcode/:date', to: 'WeatherData#show_by_postcode', constraints: {postcode: /3[0-9][0-9[0-9]/}
-  get '/weather/data/:location_id/:date' => 'WeatherData#show_by_name'
+  get '/weather/data/:postcode/:date', to: 'weather_data#show_by_postcode',constraints: { postcode: /\d.+/ }
+  get '/weather/data/:location_id/:date' => 'weather_data#show_by_name'
 
 end

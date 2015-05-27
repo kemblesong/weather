@@ -26,10 +26,6 @@ job_type :code_runner, "cd :path; rails runner ':task' :output"
 
 
 
-every 10.minutes do
-  script_runner 'Fetcher.new.fetch("the-beureu-of-meteorology")'
-end
-
 every 30.minutes do
-  script_runner 'Fetcher.new.fetch("forecast-io")'
+  script_runner 'Fetcher.new.fetch'
 end

@@ -1,7 +1,7 @@
-<h1>Weather Data</h1>
+<h1>Weather data for <i><%= @location %></i> on <%= @date.strftime("%D") %></h1>
 <table class="table">
   <tr>
-    <th>Location</th>
+    <th>Time</th>
     <th>Temperature</th>
     <th>Rainfall</th>
     <th>Wind Speed</th>
@@ -9,7 +9,7 @@
   </tr>
   <% @observations.each do |o| %>
   <tr>
-    <td><%= @location %></td>
+    <td><%= Time.at(o.observed_at).strftime("%r") %></td>
     <td><%= o.get_measurement.temperature %></td>
     <td><%= o.get_measurement.rainfall %></td>
     <td><%= o.get_measurement.wind_speed %></td>

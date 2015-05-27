@@ -1,20 +1,18 @@
 == README
-SWEN30006 Project 2
-Weather thing, by Kemble Song (584999)
+SWEN30006 Project 3
+
 SETUP INSTRUCTIONS
 =========================================
 Run the shell script in this directory:
 ./setup.sh
 
-Alternatively, do these commands yourself:
-bundle install
-rake db:reset
-rails runner "Fetcher.new.fetch('the-beureu-of-meteorology')"
-rails runner "Fetcher.new.fetch('forecast-io')"
-whenever --update-crontab
-rails s
-
-Then open up your browser and navigate to:
-http://localhost:3000/weather/data
-
-Refresh the page every so often to see NEW DATA!
+HOW TO USE
+=========================================
+For a list of locations:
+http://localhost:3000/weather/locations
+To query the database:
+http://localhost:3000/weather/data/:location_id/:date
+http://localhost:3000/weather/data/:postcode/:date
+For weather prediction:
+http://localhost:3000/weather/predicition/:post_code/:period
+http://localhost:3000/weather/predicition/:lat/:long/:period
