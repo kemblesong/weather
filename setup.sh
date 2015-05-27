@@ -1,8 +1,6 @@
 #!/bin/bash
 
 bundle install
-rake db:reset
-rails runner "Fetcher.new.fetch('the-beureu-of-meteorology')"
-rails runner "Fetcher.new.fetch('forecast-io')"
+rails runner "Fetcher.new.fetch"
 whenever -w
 rails s
