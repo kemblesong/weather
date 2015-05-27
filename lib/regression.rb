@@ -159,7 +159,7 @@ class Regression
         equation = curr_eq
       end
     end
-    return equation
+    return equation, best_mse
   end
 end
 
