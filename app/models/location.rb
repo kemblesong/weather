@@ -15,8 +15,13 @@ class Location < ActiveRecord::Base
 
   # Get weather prediction by latitude and longitude and return the results.
   def self.get_prediction_by_lat_long(lat, long, period)
+    # Search the latitude and longitude in the database.
     location = Location.where(latitude: lat, longitude: long).first
 
+    # If there is no location matches the latitude and longitude, get the closest weather station within 15km.
+    location = LatLong.get_closest_station(lat, long, Location.all) if location.nil?
+
+    # Build the result.
     result = Hash.new
     result['latitude'] = lat
     result['longitude'] = long
@@ -25,4 +30,6 @@ class Location < ActiveRecord::Base
 
     result
   end
+
+
 end
