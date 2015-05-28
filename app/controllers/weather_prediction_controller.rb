@@ -22,4 +22,19 @@ class WeatherPredictionController < ApplicationController
     end
   end
 
+  def lat_long
+    lat = params[:lat]
+    long = params[:long]
+    period = params[:period]
+
+    @result = Location.get_prediction_by_lat_long(lat, long, period)
+
+    respond_to do |format|
+      format.html
+      format.json { render json: @result.to_json }
+    end
+  rescue ActiveRecord::RecordNotFound
+    render :not_found
+  end
+
 end
