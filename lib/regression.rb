@@ -76,9 +76,6 @@ class Regression
 		b = ((n*sum_y_lnx-sum_y*sum_lnx)/(n*sum_square_of_lnx-sum_lnx**2)).round(2)
 		a = ((sum_y - b*sum_lnx)/n).round(2)
     
-    # TODO delete
-    # puts "a is #{a} b is #{b}"
-    
     return LogarithmicEquation.new(a,b)
 	end
 	
@@ -105,9 +102,6 @@ class Regression
 		a = (sum_lny*sum_x2 - sum_x*sum_x_lny) / (n*sum_x2 - sum_x**2)
 		exp_a = Math.exp(a).round(2)
 		b = ((n*sum_x_lny - sum_x*sum_lny) / (n*sum_x2 - sum_x**2)).round(2)
-    
-    # TODO delete
-    #puts "a is #{a} exp_a is #{exp_a} b is #{b}"
 		
 		if @evaluate_MSE
 			# determine MSE
@@ -148,10 +142,6 @@ class Regression
     methods.each do |m|
       curr_eq = m.call
       curr_mse = calculate_MSE curr_eq
-      
-      # TODO
-      #p curr_eq
-      p "mse method #{m} #{curr_mse}"
       
       if curr_mse < best_mse
         # found a better equation

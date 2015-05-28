@@ -47,40 +47,35 @@ class Predict
 
     time_now = Time.now
     relative_time_now = time_now.to_i - observations[0]["observed_at"].to_f
-    p "time now s #{relative_time_now}"
     
     ATTRIBUTES.each do |a|
       (0..n).step(10) do |t|
         predictions[t] ||= Hash.new
-        predictions[t]["time"] = time_now + t*60
+        predictions[t]["time"] = (time_now + t*60).strftime("%I:%M%p %d-%m-%Y")
         predictions[t][a] = Hash.new
         if !past_data[a].nil? && past_data[a].size > 1
           # has at least 2 past measurements
           regression = Regression.new(t_hash[a], past_data[a])
           curr_eq, mse = regression.get_equation_with_least_mse
-          predictions[t][a]["value"] = curr_eq.calculate relative_time_now + t*60
-          predictions[t][a]["probability"] = estimate_probability mse
-        #TODO nil if only have 1 data?
-        elsif past_data[a].size == 1
-          # only has 1 past measurement, use that 1 measurement
-          # we approximate probability to 0.8
-          predictions[t][a]["value"] = past_data[a][0]
-          predictions[t][a]["probability"] = 0.8
+          predictions[t][a]["value"] = (curr_eq.calculate relative_time_now + t*60).round(1)
+          predictions[t][a]["probability"] = (estimate_probability mse).round(2)
         else
-          # no past measurement
+          # no or only 1 past measurement
           predictions[t][a]["value"] = nil
           predictions[t][a]["probability"] = nil
         end
       end
     end
     
-    puts predictions
-    
-    #TODO rain mm
     predictions.each do |t, prediction|
       if !predictions[t]["wind_direction"]["value"].nil?
+        # convert to cardinal
         predictions[t]["wind_direction"]["value"] = Cardinal.from_degree predictions[t]["wind_direction"]["value"]
       end
+      if !predictions[t]["rainfall"]["value"].nil?
+        # add mm unit
+        predictions[t]["rainfall"]["value"] = "#{predictions[t]["rainfall"]["value"]}mm"
+       end
     end
     
     return predictions
