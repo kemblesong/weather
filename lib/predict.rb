@@ -93,4 +93,45 @@ class Predict
     
     return prob
   end
+  
+  def self.get_current_cond location
+    if self.has_reading_last_30m location
+      # no measurements available from the past 30mins
+      return nil
+    end
+    
+    # get the latest measurement
+    latest_m = Observation.where(location: location).last.get_measurement
+    
+    # estimate weather condition
+    if latest_m.rainfall > 0
+      return 'raining'
+    elsif latest_m.wind_speed > 18
+      return 'windy'
+    elsif latest_m.temperature > 20
+      return 'sunny'
+    else
+      return 'cloudy'
+    end
+  end
+    
+  def self.get_current_temp location
+    if self.has_reading_last_30m location
+      # no measurements available from the past 30mins
+      return nil
+    end
+  
+    # return latest temperature reading
+    return Observation.where(location: location).last.get_measurement.temperature
+  end
+    
+  def self.has_reading_last_30m location
+    # when was the last time location has its reading updated
+    last_updated = Observation.where(location: location).order(observed_at: :desc).first.observed_at
+    if Time.now.to_i - last_updated > 30*60
+      # no measurements available from the past 30mins
+      return false
+    end
+    return true
+  end
 end

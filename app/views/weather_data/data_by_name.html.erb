@@ -1,4 +1,6 @@
 <h1>Weather data for <i><%= @location %></i> on <%= @date.strftime("%D") %></h1>
+<h2>Current temperature <%= @results['current_temp']%> celcius</h2>
+<h2>Current condition <%= @results['current_cond']%></h2>
 <table class="table">
   <tr>
     <th>Time</th>
