@@ -1,0 +1,23 @@
+<% @results["locations"].each do |l| %>
+
+<h1>Weather data for <i><%= l["id"] %></i> on <%= @date.strftime("%D") %></h1>
+<table class="table">
+  <tr>
+    <th>Time</th>
+    <th>Temperature</th>
+    <th>Rainfall</th>
+    <th>Wind Direction</th>
+    <th>Wind Speed</th>
+  </tr>
+  <% l["measurements"].each do |m| %>
+  <tr>
+    <td><%= m["time"] %></td>
+    <td><%= m["temp"] %></td>
+    <td><%= m["precip"] %></td>
+    <td><%= m["wind_direction"] %></td>
+    <td><%= m["wind_speed"] %></td>
+  </tr>
+  <% end %>
+</table>
+
+<% end %>

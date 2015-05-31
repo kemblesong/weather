@@ -20,6 +20,8 @@ class WeatherPredictionController < ApplicationController
       format.html
       format.json { render json: @result.to_json }
     end
+  rescue ActiveRecord::RecordNotFound
+    render :not_found
   end
 
   def lat_long
