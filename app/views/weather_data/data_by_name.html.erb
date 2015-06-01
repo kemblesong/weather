@@ -1,4 +1,4 @@
-<h1>Weather data for <i><%= @location %></i> on <%= @date.strftime("%D") %></h1>
+<h1>Weather data for <i><%= @location %></i> on <%= @date.strftime('%D') %></h1>
 <h2>Current temperature <%= @results['current_temp']%> celcius</h2>
 <h2>Current condition <%= @results['current_cond']%></h2>
 <table class="table">
@@ -9,13 +9,13 @@
     <th>Wind Direction</th>
     <th>Wind Speed</th>
   </tr>
-  <% @results["measurements"].each do |m| %>
+  <% @results['measurements'].each do |m| %>
   <tr>
-    <td><%= m["time"] %></td>
-    <td><%= m["temp"] %></td>
-    <td><%= m["precip"] %></td>
-    <td><%= m["wind_direction"] %></td>
-    <td><%= m["wind_speed"] %></td>
+    <td><%= m['time'] %></td>
+    <td><%= m['temp'] %></td>
+    <td><%= m['precip'] %></td>
+    <td><%= m['wind_direction'] %></td>
+    <td><%= m['wind_speed'] %></td>
   </tr>
   <% end %>
 </table>

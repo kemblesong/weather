@@ -3,13 +3,13 @@ class LatLong
   R_EARTH = 6371
 
   # Get the distance between two coordinates.
-	def self.eval_distance l1, l2
-    lat1  = l1['latitude'] * Math::PI / 180
+	def self.eval_distance(l1, l2)
+    lat1 = l1['latitude'] * Math::PI / 180
     long1 = l1['longitude'] * Math::PI / 180
-    lat2  = l2['latitude'] * Math::PI / 180
+    lat2 = l2['latitude'] * Math::PI / 180
     long2 = l2['longitude'] * Math::PI / 180
 
-    Math.acos( Math.sin(lat1)*Math.sin(lat2) + Math.cos(lat1)*Math.cos(lat2)*Math.cos(long2-long1) ) * R_EARTH
+    Math.acos(Math.sin(lat1)*Math.sin(lat2) + Math.cos(lat1)*Math.cos(lat2)*Math.cos(long2-long1)) * R_EARTH
   end
 
   # Get the closest weather station to the given latitude/longitude within 1000km from the locations.

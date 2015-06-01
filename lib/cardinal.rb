@@ -15,10 +15,10 @@ class Cardinal
 	# adapted from http://stackoverflow.com/questions/13220367/cardinal-wind-direction-from-degrees
 	# original code by Martin R, written in Objective C
 	# convert from degree (N at 0) to cardinal
-	def self.from_degree degree
-		directions = ["N", "NNE", "NE", "ENE", "E", "ESE", "SE", "SSE", "S", "SSW", "SW", "WSW", "W", "WNW", "NW", "NNW"]
-		i = (degree + 11.25)/22.5
-		return directions[i%16]
-	end
+	def self.from_degree(degree)
+    directions = %w(N NNE NE ENE E ESE SE SSE S SSW SW WSW W WNW NW NNW)
+    i = (degree + 11.25)/22.5
+    return directions[i%16]
+  end
   
 end

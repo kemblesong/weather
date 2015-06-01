@@ -4,17 +4,17 @@ class WeatherDataController < ApplicationController
     @date = Date.parse(params[:date])
     @observations = Observation.where(location_id: Location.where(name: @location).first.id).where(observed_at: @date.beginning_of_day..@date.end_of_day)
     @results = Hash.new
-    @results["date"] = @date
-    @results["current_temp"] = Predict.get_current_temp(Location.where(name: @location))
-    @results["current_cond"] = Predict.get_current_cond(Location.where(name: @location))
-    @results["measurements"] = Array.new
+    @results['date'] = @date
+    @results['current_temp'] = Predict.get_current_temp(Location.where(name: @location))
+    @results['current_cond'] = Predict.get_current_cond(Location.where(name: @location))
+    @results['measurements'] = Array.new
     @observations.each do |o|
-      @results["measurements"] << {
-        "time" => Time.at(o.observed_at).strftime("%H:%M:%S %P"),
-        "temp" => o.get_measurement.temperature,
-        "precip" => o.get_measurement.rainfall,
-        "wind_direction" => Cardinal.from_degree(o.get_measurement.wind_direction),
-        "wind_speed" => o.get_measurement.wind_speed
+      @results['measurements'] << {
+        'time' => Time.at(o.observed_at).strftime('%H:%M:%S %P'),
+        'temp' => o.get_measurement.temperature,
+        'precip' => o.get_measurement.rainfall,
+        'wind_direction' => Cardinal.from_degree(o.get_measurement.wind_direction),
+        'wind_speed' => o.get_measurement.wind_speed
       }
     end
     respond_to do |format|
@@ -29,26 +29,26 @@ class WeatherDataController < ApplicationController
     @locations = Location.where(postcode: params[:postcode])
     @date = Date.parse(params[:date])
     @results = Hash.new
-    @results["date"] = @date
-    @results["locations"] = Array.new
+    @results['date'] = @date
+    @results['locations'] = Array.new
     @locations.each do |l|
       @observations = Observation.where(location_id: Location.where(name: l.name).first.id).where(observed_at: @date.beginning_of_day..@date.end_of_day)
       @measurements = Array.new
       @observations.each do |o|
         @measurements << {
-          "time" => Time.at(o.observed_at).strftime("%H:%M:%S %P"),
-          "temp" => o.get_measurement.temperature,
-          "precip" => o.get_measurement.rainfall,
-          "wind_direction" => Cardinal.from_degree(o.get_measurement.wind_direction),
-          "wind_speed" => o.get_measurement.wind_speed
+          'time' => Time.at(o.observed_at).strftime('%H:%M:%S %P'),
+          'temp' => o.get_measurement.temperature,
+          'precip' => o.get_measurement.rainfall,
+          'wind_direction' => Cardinal.from_degree(o.get_measurement.wind_direction),
+          'wind_speed' => o.get_measurement.wind_speed
         }
       end
-      @results["locations"] << {
-        "id" => l.name,
-        "lat" => l.latitude,
-        "lon" => l.longitude,
-        "last_update" => Time.at(Observation.where(location_id: l.id).order(observed_at: :desc).first.observed_at).strftime("%H:%M%P %d-%m-%Y"),
-        "measurements" => @measurements
+      @results['locations'] << {
+        'id' => l.name,
+        'lat' => l.latitude,
+        'lon' => l.longitude,
+        'last_update' => Time.at(Observation.where(location_id: l.id).order(observed_at: :desc).first.observed_at).strftime("%H:%M%P %d-%m-%Y"),
+        'measurements' => @measurements
       }
     end
 
