@@ -80,7 +80,7 @@ class Predict
 
     return predictions
   end
-  
+
   # estimate the probability from a mean squared error
   def self.estimate_probability(mse)
     weight = 2000
@@ -93,9 +93,9 @@ class Predict
 
     return prob
   end
-  
+
   def self.get_current_cond(location)
-    if self.has_reading_last_30m location
+    if !self.has_reading_last_30m location
       # no measurements available from the past 30mins
       return nil
     end
@@ -114,20 +114,20 @@ class Predict
       return 'cloudy'
     end
   end
-    
+
   def self.get_current_temp(location)
-    if self.has_reading_last_30m location
+    if !self.has_reading_last_30m location
       # no measurements available from the past 30mins
       return nil
     end
 
     # return latest temperature reading
-    return Observation.where(location: location).last.get_measurement.temperature
+    return Observation.where(location_id: location.id).last.get_measurement.temperature
   end
-    
+
   def self.has_reading_last_30m(location)
     # when was the last time location has its reading updated
-    last_updated = Observation.where(location: location).order(observed_at: :desc).first.observed_at
+    last_updated = Observation.where(location_id: location.id).order(observed_at: :desc).first.observed_at
     if Time.now.to_i - last_updated > 30*60
       # no measurements available from the past 30mins
       return false

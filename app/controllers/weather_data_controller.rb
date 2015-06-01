@@ -5,8 +5,8 @@ class WeatherDataController < ApplicationController
     @observations = Observation.where(location_id: Location.where(name: @location).first.id).where(observed_at: @date.beginning_of_day..@date.end_of_day)
     @results = Hash.new
     @results['date'] = @date
-    @results['current_temp'] = Predict.get_current_temp(Location.where(name: @location))
-    @results['current_cond'] = Predict.get_current_cond(Location.where(name: @location))
+    @results['current_temp'] = Predict.get_current_temp(Location.where(name: @location).first)
+    @results['current_cond'] = Predict.get_current_cond(Location.where(name: @location).first)
     @results['measurements'] = Array.new
     @observations.each do |o|
       @results['measurements'] << {

@@ -4,7 +4,8 @@ A weather prediction and data scraping app built with Rails
 **Authors:** Group 22 - **Mingyou Fang** (678731), **Stephen Tjandra** (614604), **Kemble Song** (584999)
 
 ## Setup Instructions
-Run the bash script `./setup.sh` from this directory.
+Run the bash script `./setup.sh` from this directory.  
+If there is no location data in the database, please also run `rake db:seed`
 
 ## How to Use
 #### For a list of locations:
