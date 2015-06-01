@@ -9,14 +9,14 @@ require 'cardinal'
 
 class Scraper
 
-  def get_bom location
+  def get_bom(location)
     url = 'http://www.bom.gov.au/vic/observations/vicall.shtml'
     doc = Nokogiri::HTML(open(url))
-    data = doc.xpath('//td[contains(@headers, \''+location+'\')]').map{|x| x.text}
-    forecast = { temperature: data[1],
-                 rainfall: data[12],
-                 wind_dir: Cardinal.to_degree(data[6]),
-                 wind_speed: data[7] }
-    return forecast
+    data = doc.xpath('//td[contains(@headers, \''+location+'\')]').map { |x| x.text }
+    forecast = {temperature: data[1],
+                rainfall: data[12],
+                wind_dir: Cardinal.to_degree(data[6]),
+                wind_speed: data[7]}
+    forecast
   end
 end

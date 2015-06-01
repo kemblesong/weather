@@ -9,12 +9,8 @@ class WeatherPredictionController < ApplicationController
     @result = Hash.new
     @result['post_code'] = postcode
 
-    if !location.nil?
-      @result['predictions'] = Predict.regress Location.get_observations(location), period.to_i
-    else
-      # we don't have location for the given post code
-      @result['predictions'] = Hash.new
-    end
+    # we don't have location for the given post code
+    location.nil? ? @result['predictions'] = Hash.new : @result['predictions'] = Predict.regress(Location.get_observations(location), period.to_i)
 
     respond_to do |format|
       format.html

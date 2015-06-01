@@ -11,32 +11,32 @@ class Regression
 	
 	def linear
 		coefficient_array, mse = polynomial_with_degree(1)
-    
-    return PolynomialEquation.new(coefficient_array)
+
+    PolynomialEquation.new(coefficient_array)
 	end
 	
 	def polynomial
 		best_coefficient_array = []
-		best_MSE = 0
-		firstTime = true
+		best_mse = 0
+		first_time = true
 		
 		# regress with polynomial degree from 2 until $polynomial_max_degree
 		# pick the one with the least mean squared error
 		(2..POLYNOMIAL_MAX_DEGREE).each do |i|
-			if firstTime
-				best_coefficient_array, best_MSE = polynomial_with_degree(i)
-				firstTime = false
+			if first_time
+				best_coefficient_array, best_mse = polynomial_with_degree(i)
+				first_time = false
 			else
-				current_coefficient_array, current_MSE = polynomial_with_degree(i)
-				if current_MSE < best_MSE
+				current_coefficient_array, current_mse = polynomial_with_degree(i)
+				if current_mse < best_mse
 					# found a better equation
 					best_coefficient_array = current_coefficient_array
-					best_MSE = current_MSE
+					best_mse = current_mse
 				end
 			end
 		end
-		
-		return PolynomialEquation.new(best_coefficient_array)
+
+    PolynomialEquation.new(best_coefficient_array)
 	end
 	
 	# calculate equation of best fit for a given degree
@@ -51,7 +51,7 @@ class Regression
 		
 		coefficient_array = ((x_matrix.transpose * x_matrix).inverse * x_matrix.transpose * y_matrix).transpose.round(2).to_a[0]
 
-		return coefficient_array, calculate_MSE(PolynomialEquation.new(coefficient_array))
+		return coefficient_array, calculate_mse(PolynomialEquation.new(coefficient_array))
 			
 	end
 	
@@ -75,8 +75,8 @@ class Regression
 		# y = a + b ln x
 		b = ((n*sum_y_lnx-sum_y*sum_lnx)/(n*sum_square_of_lnx-sum_lnx**2)).round(2)
 		a = ((sum_y - b*sum_lnx)/n).round(2)
-    
-    return LogarithmicEquation.new(a,b)
+
+    LogarithmicEquation.new(a,b)
 	end
 	
 	# perform least squares fitting exponential regression
@@ -102,13 +102,13 @@ class Regression
 		a = (sum_lny*sum_x2 - sum_x*sum_x_lny) / (n*sum_x2 - sum_x**2)
 		exp_a = Math.exp(a).round(2)
 		b = ((n*sum_x_lny - sum_x*sum_lny) / (n*sum_x2 - sum_x**2)).round(2)
-		
+
 		if @evaluate_MSE
 			# determine MSE
-			print_MSE(calculate_MSE(lambda { |x| y=exp_a*Math.exp(b*x) }))
+			print_MSE(calculate_mse(lambda { |x| y=exp_a*Math.exp(b*x) }))
 		end
-    
-    return ExponentialEquation.new(exp_a,b)
+
+    ExponentialEquation.new(exp_a,b)
 		
 	end
 	
@@ -123,14 +123,14 @@ class Regression
 	end
 	
 	# calculate the mean squared error for a given equation
-	def calculate_MSE(equation)
+	def calculate_mse(equation)
 		result = 0
 		@y_array.each_with_index do |y, i|
 			f = equation.calculate(@x_array[i])
 			result += (f-y)**2
 		end
 		result /= @y_array.size
-		return result.round(2)
+    result.round(2)
 	end
   
   def get_equation_with_least_mse
@@ -141,7 +141,7 @@ class Regression
     
     methods.each do |m|
       curr_eq = m.call
-      curr_mse = calculate_MSE curr_eq
+      curr_mse = calculate_mse curr_eq
       
       if curr_mse < best_mse
         # found a better equation
@@ -155,12 +155,12 @@ end
 
 
 class Equation
-  def calculate x
+  def calculate(x)
   end
 end
 
 class PolynomialEquation < Equation
-  def initialize coefficient_array
+  def initialize(coefficient_array)
     @coefficient_array = coefficient_array
   end
   
@@ -171,32 +171,32 @@ class PolynomialEquation < Equation
       x_i *= x
       y += @coefficient_array[i]*x_i
     end
-    return y
+    y
   end
 end
 
 
 class LogarithmicEquation < Equation
   # y = a + b ln x
-  def initialize a, b
+  def initialize(a, b)
     @a = a
     @b = b
   end
   
   def calculate x
-    return @a + @b*Math.log(x)
+    @a + @b*Math.log(x)
   end
 end
 
 class ExponentialEquation < Equation
   # y = A e^(Bx)  y=exp_a*Math.exp(b*x)
-  def initialize a, b
+  def initialize(a, b)
     @a = a
     @b = b
   end
   
   def calculate x
-    return @a * Math.exp(@b*x)
+    @a * Math.exp(@b*x)
   end
 end
   
